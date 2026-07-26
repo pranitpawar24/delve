@@ -1,0 +1,8 @@
+engine/build/
+dashboard/node_modules/
+dashboard/dist/
+bridge/venv/
+bridge/netsentinel.db
+.git/
+.gitignore
+*.md

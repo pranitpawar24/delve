@@ -316,3 +316,38 @@ Active at unusual hour
 
 > These are real pcap files captured from actual attack patterns,
 > replayed through the C++ engine and detected in real time.
+
+---
+
+## 🐳 Run with Docker (Easiest Way)
+
+No C++, Python, or Node installation needed. Just Docker.
+
+### Prerequisites
+Install Docker Desktop → https://www.docker.com/products/docker-desktop
+
+### Run NetSentinel
+```bash
+docker run -it --net=host pranitpawar24/netsentinel
+```
+
+Open browser → **http://localhost:5173**
+
+### Run on your live network interface
+```bash
+# Linux/Mac
+docker run -it --net=host -e IFACE=eth0 pranitpawar24/netsentinel
+
+# Find your interface name first
+ip a    # Linux
+ifconfig  # Mac
+```
+
+### What you get
+- Bridge running on `http://localhost:8000`
+- Dashboard on `http://localhost:5173`
+- Engine analyzing your real network traffic
+- Click any scenario button to simulate attacks
+
+> **Note:** `--net=host` gives the container access to your host network interfaces.
+> Works best on Linux. On Windows/Mac, captures traffic inside Docker VM.
