@@ -528,6 +528,24 @@ export default function App() {
                 </div>
               ):alerts.map((a,i)=><AlertRow key={i} a={a} t={t}/>)}
             </div>
+          <div style={{marginTop:10,display:"flex",alignItems:"center",gap:10}}>
+            <input type="file" accept=".pcap" id="pcap-upload"
+              onChange={async(e)=>{
+                const file=e.target.files[0]; if(!file) return;
+                const form=new FormData(); form.append("file",file);
+                try{await fetch(`${API}/upload/pcap`,{method:"POST",body:form});}catch(err){console.error(err);}
+                e.target.value="";
+              }}
+              style={{display:"none"}}/>
+            <label htmlFor="pcap-upload" style={{padding:"8px 14px",borderRadius:8,
+              border:`1px solid ${t.border}`,background:t.bgSecond,
+              color:t.textSub,cursor:"pointer",fontSize:12,
+              display:"flex",alignItems:"center",gap:6}}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload your own .pcap file
+            </label>
+            <span id="pcap-filename" style={{fontSize:11,fontFamily:"JetBrains Mono,monospace",color:"#00D4AA",display:"none"}}></span>
+          </div>
           </section>
 
           <section aria-label="Live packet feed" style={panel}>
@@ -554,6 +572,24 @@ export default function App() {
                 </div>
               ):events.slice(0,80).map((e,i)=><PacketRow key={i} e={e} t={t}/>)}
             </div>
+          <div style={{marginTop:10,display:"flex",alignItems:"center",gap:10}}>
+            <input type="file" accept=".pcap" id="pcap-upload"
+              onChange={async(e)=>{
+                const file=e.target.files[0]; if(!file) return;
+                const form=new FormData(); form.append("file",file);
+                try{await fetch(`${API}/upload/pcap`,{method:"POST",body:form});}catch(err){console.error(err);}
+                e.target.value="";
+              }}
+              style={{display:"none"}}/>
+            <label htmlFor="pcap-upload" style={{padding:"8px 14px",borderRadius:8,
+              border:`1px solid ${t.border}`,background:t.bgSecond,
+              color:t.textSub,cursor:"pointer",fontSize:12,
+              display:"flex",alignItems:"center",gap:6}}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload your own .pcap file
+            </label>
+            <span id="pcap-filename" style={{fontSize:11,fontFamily:"JetBrains Mono,monospace",color:"#00D4AA",display:"none"}}></span>
+          </div>
           </section>
         </div>
       </main>

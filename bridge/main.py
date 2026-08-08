@@ -1,8 +1,8 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
-import time, subprocess, os, asyncio
+import time, subprocess, os, asyncio, shutil
 import aiosqlite
 from collections import deque
 
@@ -301,3 +301,41 @@ async def ws_endpoint(ws: WebSocket):
 
 @app.get("/health")
 def health(): return {"status":"ok","db":DB_PATH}
+
+# ─── PCAP Upload endpoint ────────────────────────────────────
+@app.post("/upload/pcap")
+async def upload_pcap(file: UploadFile = File(...)):
+    global engine_process
+
+    if not file.filename.endswith(".pcap"):
+        return {"error": "Only .pcap files accepted"}
+
+    # Save uploaded file
+    pcap_path = f"/tmp/{file.filename}"
+    with open(pcap_path, "wb") as f:
+        shutil.copyfileobj(file.file, f)
+
+    # Kill previous engine
+    if engine_process and engine_process.poll() is None:
+        engine_process.terminate()
+        try: engine_process.wait(timeout=3)
+        except: engine_process.kill()
+
+    # Reset stats
+    stats.update({"total_packets":0,"total_bytes":0,
+                  "threats_detected":0,"anomalies_detected":0,
+                  "protocols":{},"start_time":time.time()})
+    events.clear()
+    alerts.clear()
+
+    # Broadcast reset
+    await manager.broadcast({"type":"reset","scenario":"custom"})
+
+    # Start engine with uploaded pcap
+    engine_process = subprocess.Popen(
+        [ENGINE_PATH, "--demo", pcap_path,
+         "--bridge", "http://localhost:8000"],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
+
+    return {"ok": True, "filename": file.filename}
