@@ -1,15 +1,15 @@
-# 🔍 NetSentinel — Deep Packet Inspection Engine
+# 🔍 Delve — Deep Packet Inspection Engine
 
 > A full-featured network security system with real-time threat detection, traffic classification, content filtering, and behavioral anomaly scoring — built in C++, Python, and React.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-netsentinel--zeta.vercel.app-blue?style=flat-square&logo=vercel)](https://netsentinel-zeta.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-delve--zeta.vercel.app-blue?style=flat-square&logo=vercel)](https://delve-zeta.vercel.app)
 [![C++17](https://img.shields.io/badge/C++-17-00599C?style=flat-square&logo=c%2B%2B)](https://isocpp.org/)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
-**[🚀 Live Dashboard →](https://netsentinel-zeta.vercel.app)**
+**[🚀 Live Dashboard →](https://delve-zeta.vercel.app)**
 
 ---
 
@@ -114,7 +114,7 @@ Score > 3.5 → alert generated with full deviation breakdown.
 # 📁 Project Structure
 
 ``` text
-netsentinel/
+delve/
 ├── engine/
 │   ├── include/
 │   ├── src/
@@ -152,7 +152,7 @@ make -j$(nproc)
 
 ### 2. Run in Demo Mode (no root needed)
 ```bash
-./netsentinel --demo ../../demo/sample.pcap
+./delve --demo ../../demo/sample.pcap
 ```
 
 ### 3. Start FastAPI Bridge
@@ -178,7 +178,7 @@ Open 3 terminals — bridge, engine, dashboard — then visit `http://localhost:
 
 | Layer | Platform | URL |
 |---|---|---|
-| Dashboard | Vercel | [netsentinel-zeta.vercel.app](https://netsentinel-zeta.vercel.app) |
+| Dashboard | Vercel | [delve-zeta.vercel.app](https://delve-zeta.vercel.app) |
 | Bridge | Local / VPS | `http://localhost:8000` |
 | Engine | Local (WSL/Linux) | Runs on host machine |
 
@@ -204,10 +204,10 @@ MIT © [Pranit Pawar](https://github.com/pranitpawar24)
 
 ---
 
-## 🖥️ How to Use NetSentinel
+## 🖥️ How to Use Delve
 
 ### Option 1 — Just view the live demo (no setup needed)
-Visit **[netsentinel-zeta.vercel.app](https://netsentinel-zeta.vercel.app)** and click any scenario button to see the engine analyzing pre-captured attack traffic in real time.
+Visit **[delve-zeta.vercel.app](https://delve-zeta.vercel.app)** and click any scenario button to see the engine analyzing pre-captured attack traffic in real time.
 
 > **Note:** The live demo shows traffic from our engine running on our server — not your own network traffic. To monitor your own traffic, follow Option 2 or 3 below.
 
@@ -221,8 +221,8 @@ Clone and run the engine on your own machine to analyze your real network traffi
 
 ```bash
 # 1. Clone
-git clone https://github.com/pranitpawar24/netsentinel.git
-cd netsentinel
+git clone https://github.com/pranitpawar24/delve.git
+cd delve
 
 # 2. Build engine
 cd engine && mkdir build && cd build
@@ -239,7 +239,7 @@ npm install && npm run dev
 
 # 5. Run engine on your network interface (new terminal)
 ip a                          # find your interface name (eth0, wlan0, etc.)
-sudo ./engine/build/netsentinel --iface eth0 --bridge http://localhost:8000
+sudo ./engine/build/delve --iface eth0 --bridge http://localhost:8000
 
 # 6. Open dashboard
 # http://localhost:5173
@@ -255,16 +255,16 @@ No root access needed — replays pre-captured attack pcap files:
 
 ```bash
 # Normal traffic
-./engine/build/netsentinel --demo demo/normal_traffic.pcap --bridge http://localhost:8000
+./engine/build/delve --demo demo/normal_traffic.pcap --bridge http://localhost:8000
 
 # Port scan attack
-./engine/build/netsentinel --demo demo/port_scan.pcap --bridge http://localhost:8000
+./engine/build/delve --demo demo/port_scan.pcap --bridge http://localhost:8000
 
 # SQL injection
-./engine/build/netsentinel --demo demo/sql_injection.pcap --bridge http://localhost:8000
+./engine/build/delve --demo demo/sql_injection.pcap --bridge http://localhost:8000
 
 # Data exfiltration
-./engine/build/netsentinel --demo demo/exfiltration.pcap --bridge http://localhost:8000
+./engine/build/delve --demo demo/exfiltration.pcap --bridge http://localhost:8000
 ```
 
 Or use the scenario buttons on the dashboard — they trigger these automatically.
@@ -276,7 +276,7 @@ Or use the scenario buttons on the dashboard — they trigger these automaticall
 To monitor all traffic on a network (not just one machine):
 
 1. Deploy the engine + bridge on a Linux machine connected to your network
-2. Run engine in live capture mode: `sudo ./netsentinel --iface eth0`
+2. Run engine in live capture mode: `sudo ./delve --iface eth0`
 3. Deploy the dashboard on Vercel or any static host
 4. Set `VITE_API_URL` to your bridge's public IP
 5. Every device on the network is now monitored
@@ -326,9 +326,9 @@ No C++, Python, or Node installation needed. Just Docker.
 ### Prerequisites
 Install Docker Desktop → https://www.docker.com/products/docker-desktop
 
-### Run NetSentinel
+### Run Delve
 ```bash
-docker run -it --net=host pranitpawar24/netsentinel
+docker run -it --net=host pranitpawar24/delve
 ```
 
 Open browser → **http://localhost:5173**
@@ -336,7 +336,7 @@ Open browser → **http://localhost:5173**
 ### Run on your live network interface
 ```bash
 # Linux/Mac
-docker run -it --net=host -e IFACE=eth0 pranitpawar24/netsentinel
+docker run -it --net=host -e IFACE=eth0 pranitpawar24/delve
 
 # Find your interface name first
 ip a    # Linux
